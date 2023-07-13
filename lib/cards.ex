@@ -14,6 +14,14 @@ defmodule Cards do
     end
   end
 
+  @doc """
+    Returns card when shuffled
+
+  ## Example
+      iex> deck = Cards.create_deck
+      iex> deck != Cards.shuffle(deck)
+
+  """
   def shuffle(deck) do
     deck
     |> Enum.shuffle()
@@ -48,17 +56,35 @@ defmodule Cards do
     Enum.split(deck, hand_size)
   end
 
+  @doc """
+    Save method writes to a file specified in the file system `filename`
+
+  ## Example
+      iex> deck = Cards.create_deck
+      iex> Cards.save(deck, "file.txt")
+      :ok
+  """
   def save(deck, filename) do
     binary = :erlang.term_to_binary(deck)
     File.write(filename, binary)
   end
 
+  @doc """
+    Reads from file system to addd deck from a file..
+    Pass the `filename`
+  """
   def load(filename) do
     case File.read(filename) do
       {:ok, binary} -> :erlang.binary_to_term(binary)
       {:error, _msg} -> "something went wrong file or not there"
     end
   end
+
+  @doc """
+     Create Deck shuffles and deals card all in one step.
+     To the specified hand size
+
+  """
 
   def create_hand(hand_size) do
     create_deck()
